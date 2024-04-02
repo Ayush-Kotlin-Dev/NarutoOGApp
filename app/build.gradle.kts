@@ -99,11 +99,12 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.0")
 
-    val room = "2.6.0"
+    val room = "2.6.1"
     // Room
     implementation("androidx.room:room-runtime:$room")
     implementation("androidx.room:room-ktx:$room")
     ksp("androidx.room:room-compiler:$room")
+    implementation("androidx.room:room-paging:2.6.1")
 
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
