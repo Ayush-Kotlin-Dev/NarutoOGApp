@@ -39,6 +39,7 @@ import ggv.ayush.narutoog.ui.theme.PAGING_INDICATOR_WIDTH
 import ggv.ayush.narutoog.ui.theme.Purple500
 import ggv.ayush.narutoog.ui.theme.Purple700
 import ggv.ayush.narutoog.ui.theme.welcomeScreenBackgroundColor
+import ggv.ayush.narutoog.util.Constants.LAST_ON_BOARDING_PAGE_INDEX
 import ggv.ayush.narutoog.util.Constants.ON_BOARDING_PAGE_COUNT
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -172,7 +173,7 @@ fun FinishButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
-            visible = pagerState.currentPage == 2
+            visible = pagerState.currentPage == LAST_ON_BOARDING_PAGE_INDEX
         ) {
             Button(
                 onClick = { onClick.invoke() },
