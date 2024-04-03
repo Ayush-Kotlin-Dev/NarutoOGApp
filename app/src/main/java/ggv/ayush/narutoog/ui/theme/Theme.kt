@@ -3,6 +3,7 @@ package ggv.ayush.narutoog.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.darkColorScheme
@@ -64,7 +65,7 @@ fun NarutoOGTheme(
             if(darkTheme){
                 val window = (view.context as Activity).window
                 window.statusBarColor = Color.Black.toArgb()
-                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
             }else{
                 val window = (view.context as Activity).window
                 window.statusBarColor = colorScheme.primary.toArgb()
