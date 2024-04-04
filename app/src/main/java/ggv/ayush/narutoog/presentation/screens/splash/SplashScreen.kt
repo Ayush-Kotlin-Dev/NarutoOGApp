@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,13 +15,19 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ggv.ayush.narutoog.R
+import ggv.ayush.narutoog.navigation.Screen
 import ggv.ayush.narutoog.ui.theme.Purple500
 import ggv.ayush.narutoog.ui.theme.Purple700
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(
+    navController: NavController,
+    splashViewModel: SplashViewModel = hiltViewModel()
+) {
+    val onBoardingCompleted = splashViewModel.onBoardingCompleted.collectAsState()
     val degrees = remember {
         androidx.compose.animation.core.Animatable(0f)
     }
@@ -28,10 +35,16 @@ fun SplashScreen(navController: NavController) {
         degrees.animateTo(
             targetValue = 360f,
             animationSpec = androidx.compose.animation.core.tween(
-                durationMillis = 1000,
+                durationMillis = 2000,
                 delayMillis = 200
             )
         )
+        navController.popBackStack()
+        if (onBoardingCompleted.value) {
+            navController.navigate(Screen.Home.route)
+        } else {
+            navController.navigate(Screen.Welcome.route)
+        }
 
     }
     Splash(degrees.value)

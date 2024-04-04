@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -44,7 +45,10 @@ import ggv.ayush.narutoog.util.Constants.ON_BOARDING_PAGE_COUNT
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WelcomeScreen( navController: NavController){
+fun WelcomeScreen(
+    navController: NavController,
+    welcomeViewModel: WelcomeViewModel = hiltViewModel()
+){
     val activeColor = if (isSystemInDarkTheme()) Purple700 else Purple500
     val inActiveColor = if (isSystemInDarkTheme()) DarkGrey else LightGrey
 
@@ -86,10 +90,12 @@ fun WelcomeScreen( navController: NavController){
             modifier = Modifier
                 .weight(1f),
             pagerState = pagerState,
-            onClick = {
-                navController.navigate(Screen.Home.route)
-            }
-        )
+
+        ){
+            navController.popBackStack()
+            navController.navigate(Screen.Home.route)
+            welcomeViewModel.saveOnBoardingState(true)
+        }
 
     }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import ggv.ayush.narutoog.data.repository.DataStoreOperationImpl
 import ggv.ayush.narutoog.domain.repository.DataStoreOperations
 import javax.inject.Singleton
@@ -34,4 +35,11 @@ object RepositoryModule {
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository)
         )
     }
+
+        @Provides
+        fun provideContext(@ApplicationContext app: Context): Context {
+            return app
+        }
+
+
 }
