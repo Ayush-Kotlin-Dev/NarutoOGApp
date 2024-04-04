@@ -1,4 +1,4 @@
-package ggv.ayush.narutoog.data.pref
+package ggv.ayush.narutoog.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
