@@ -4,6 +4,8 @@ plugins {
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("com.google.dagger.hilt.android")
+    id ("kotlinx-serialization")
+
 }
 
 android {
@@ -81,6 +83,8 @@ dependencies {
     testImplementation("com.google.dagger:hilt-android-testing:2.51")
     kspTest("com.google.dagger:hilt-compiler:2.51")
 
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
     //Navigation
     val nav_version = "2.7.7"

@@ -25,6 +25,7 @@ fun HomeTopBar(
 
 
     TopAppBar(
+        
         title = {
             Text(
                 text = "Explore",
