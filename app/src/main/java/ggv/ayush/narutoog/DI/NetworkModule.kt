@@ -5,7 +5,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ggv.ayush.narutoog.data.local.BorutoDatabase
 import ggv.ayush.narutoog.data.remote.BorutoApi
+import ggv.ayush.narutoog.data.repository.RemoteDataSourceImpl
+import ggv.ayush.narutoog.domain.repository.RemoteDataSource
 import ggv.ayush.narutoog.util.Constants.BASE_URL
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -50,5 +53,14 @@ object NetworkModule {
     @Singleton
     fun provideBorutoApi(retrofit: Retrofit):BorutoApi{
         return retrofit.create(BorutoApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteDataSource(
+        borutoApi: BorutoApi,
+        borutoDatabase: BorutoDatabase
+    ): RemoteDataSource {
+        return RemoteDataSourceImpl(borutoApi, borutoDatabase)
     }
 }
