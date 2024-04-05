@@ -3,6 +3,7 @@ package ggv.ayush.narutoog.DI
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,11 +21,13 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ) =
-        Room.databaseBuilder(
+    ) : RoomDatabase {
+        return Room.databaseBuilder(
             context,
-             BorutoDatabase::class.java,
+            BorutoDatabase::class.java,
             BORUTU_DATABASE
         ).build(
         )
+    }
+
 }

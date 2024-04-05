@@ -150,7 +150,7 @@ dependencies {
     testImplementation ("org.jetbrains.kotlin:kotlin-test-junit:1.5.1")
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1")
 
-
+    implementation ("androidx.navigation:navigation-compose:2.7.7")
 
 
 
