@@ -5,6 +5,6 @@ import ggv.ayush.narutoog.domain.model.Hero
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteDataSource {
-    suspend fun getAllHeroes(): Flow<PagingData<Hero>>
-    suspend fun searchHeroes():Flow<PagingData<Hero>>
+     fun getAllHeroes(): Flow<PagingData<Hero>>
+     fun searchHeroes():Flow<PagingData<Hero>>
 }

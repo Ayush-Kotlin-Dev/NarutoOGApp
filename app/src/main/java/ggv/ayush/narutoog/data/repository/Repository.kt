@@ -11,7 +11,7 @@ class Repository @Inject constructor(
     private val remote : RemoteDataSource,
     private val dataStore: DataStoreOperations
 ){
-    suspend fun getAllHeroes() : Flow<PagingData<Hero>> {
+     fun getAllHeroes() : Flow<PagingData<Hero>> {
         return remote.getAllHeroes()
     }
 

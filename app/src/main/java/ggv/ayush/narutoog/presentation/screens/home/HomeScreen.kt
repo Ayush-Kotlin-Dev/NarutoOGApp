@@ -12,15 +12,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun  HomeScreen(logoPosition: Float ) {
+fun  HomeScreen(
+    logoPosition: Float ,
+    homeViewModel: HomeViewModel = hiltViewModel()
+
+){
+    val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
+
 
     val animatedLogoPosition = remember { androidx.compose.animation.core.Animatable(logoPosition) }
-
     LaunchedEffect(key1 = logoPosition) {
         animatedLogoPosition.animateTo(
             targetValue = 0f,  // The final position of the logo in the top bar
