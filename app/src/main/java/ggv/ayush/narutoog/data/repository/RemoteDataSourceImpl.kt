@@ -19,7 +19,7 @@ class RemoteDataSourceImpl(
 ) : RemoteDataSource {
 
     val heroDao = borutoDatabase.heroDao()
-    override suspend fun getAllHeroes(): Flow<PagingData<Hero>> {
+    override fun getAllHeroes(): Flow<PagingData<Hero>> {
         val pagingSourceFactory = { heroDao.getAllHeroes() }
         return Pager(
             config = PagingConfig(pageSize = ITEMS_PER_PAGE),
@@ -31,7 +31,7 @@ class RemoteDataSourceImpl(
         ).flow
     }
 
-    override suspend fun searchHeroes(): Flow<PagingData<Hero>> {
+    override  fun searchHeroes(): Flow<PagingData<Hero>> {
         TODO("Not yet implemented")
     }
 }
