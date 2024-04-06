@@ -6,16 +6,20 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import ggv.ayush.narutoog.presentation.components.RatingWidget
+import ggv.ayush.narutoog.ui.theme.LARGE_PADDING
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -41,9 +45,7 @@ fun  HomeScreen(
             HomeTopBar(onSearchClicked = {} , logoPosition = animatedLogoPosition.value)
         }
     ){
-        Column {
-            Text(text = "Home Screen")
-        }
+        RatingWidget(modifier = Modifier.padding(all = LARGE_PADDING), rating = 4.6)
     }
 
 
