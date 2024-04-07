@@ -1,5 +1,6 @@
 package ggv.ayush.narutoog.data.pagingsource
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -64,9 +65,11 @@ class HeroRemoteMediator @Inject constructor(
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.nextPage
                         ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                    nextPage
                 }
             }
             val response = borutoApi.getAllHeroes(page = page )
+            Log.d("HeroRemoteMediator", "API response: $response")
             if (response.heroes.isNotEmpty()) {
                 borutoDatabase.withTransaction {
                     if (loadType == LoadType.REFRESH) {
@@ -85,10 +88,15 @@ class HeroRemoteMediator @Inject constructor(
                     heroRemoteKeysDao.addAllRemoteKey(heroRemoteKeys = keys)
                     heroDao.addHero(response.heroes)
 
+
+                    val result = heroDao.addHero(response.heroes)
+                    Log.d("HeroRemoteMediator", "Database operation result: $result")
+
                 }
             }
             MediatorResult.Success(endOfPaginationReached = response.nextPage == null)
         } catch (e: Exception) {
+            Log.e("HeroRemoteMediator", "Error loading data", e)
             return MediatorResult.Error(e)
         }
     }

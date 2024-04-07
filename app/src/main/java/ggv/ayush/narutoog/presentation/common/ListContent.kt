@@ -1,16 +1,20 @@
 package ggv.ayush.narutoog.presentation.common
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
@@ -29,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.rememberImagePainter
 import ggv.ayush.narutoog.R
 import ggv.ayush.narutoog.domain.model.Hero
@@ -46,7 +51,22 @@ fun ListContent(
     heroes : LazyPagingItems<Hero>,
     navController: NavHostController
 ) {
-
+    LazyColumn(
+        contentPadding = PaddingValues(2.dp),
+        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
+    ) {
+        items(
+            items = heroes,
+            key = { hero -> hero.id }
+        ){ hero ->
+            hero?.let {
+                HeroItem(
+                    hero = it,
+                    navController = navController
+                )
+            }
+        }
+    }
 }
 
 @Composable
@@ -67,14 +87,17 @@ fun HeroItem(
     Box(
         modifier = Modifier
             .height(HERO_ITEM_HEIGHT)
-            .padding(LARGE_PADDING)
+            .padding(SMALL_PADDING)
             .clickable {
                 navController.navigate(Screen.Details.passHeroId(hero.id))
             },
         contentAlignment = Alignment.BottomStart
     ) {
         Surface(
-            shape = Shapes.large
+            shape = RoundedCornerShape(
+                bottomStart = LARGE_PADDING,
+                bottomEnd = LARGE_PADDING
+            )
         ) {
             Image(
                 modifier = Modifier.fillMaxSize(),
@@ -116,7 +139,7 @@ fun HeroItem(
 
                 Row (
                     modifier = Modifier
-                        .padding(top = 4.dp),
+                        .padding(top = 1.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ){
                     RatingWidget(

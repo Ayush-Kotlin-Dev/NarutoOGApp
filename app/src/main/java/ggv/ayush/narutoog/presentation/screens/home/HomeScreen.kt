@@ -18,7 +18,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import ggv.ayush.narutoog.domain.model.Hero
+import ggv.ayush.narutoog.presentation.common.HeroItem
 import ggv.ayush.narutoog.presentation.common.ListContent
 import ggv.ayush.narutoog.presentation.components.RatingWidget
 import ggv.ayush.narutoog.ui.theme.LARGE_PADDING
@@ -53,6 +56,7 @@ fun  HomeScreen(
             )
         }
     )
+
 
 
 }

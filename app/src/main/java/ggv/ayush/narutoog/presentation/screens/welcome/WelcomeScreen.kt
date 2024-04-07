@@ -1,6 +1,10 @@
 package ggv.ayush.narutoog.presentation.screens.welcome
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,6 +20,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,6 +57,17 @@ fun WelcomeScreen(
 ){
     val activeColor = if (isSystemInDarkTheme()) Purple700 else Purple500
     val inActiveColor = if (isSystemInDarkTheme()) DarkGrey else LightGrey
+
+    val logoPosition = remember { Animatable(0f) }
+    LaunchedEffect(key1 = true) {
+        logoPosition.animateTo(
+            targetValue = -350f,  // Adjust this value as needed
+            animationSpec = tween(400, easing  = Easing { fraction ->
+                LinearEasing.transform(fraction)
+            })
+        )
+    }
+
 
     val pages = listOf(
         onBoardingPage.FirstPage,
@@ -93,7 +110,7 @@ fun WelcomeScreen(
 
         ){
             navController.popBackStack()
-            navController.navigate(Screen.Home.route)
+            navController.navigate("${Screen.Home.route}/${logoPosition.value}")
             welcomeViewModel.saveOnBoardingState(true)
         }
 
