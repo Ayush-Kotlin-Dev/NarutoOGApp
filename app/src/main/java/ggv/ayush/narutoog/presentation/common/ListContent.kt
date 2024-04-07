@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.rememberImagePainter
@@ -39,6 +40,7 @@ import ggv.ayush.narutoog.R
 import ggv.ayush.narutoog.domain.model.Hero
 import ggv.ayush.narutoog.navigation.Screen
 import ggv.ayush.narutoog.presentation.components.RatingWidget
+import ggv.ayush.narutoog.presentation.components.ShimmerEffect
 import ggv.ayush.narutoog.ui.theme.HERO_ITEM_HEIGHT
 import ggv.ayush.narutoog.ui.theme.LARGE_PADDING
 import ggv.ayush.narutoog.ui.theme.MEDIUM_PADDING
@@ -51,6 +53,11 @@ fun ListContent(
     heroes : LazyPagingItems<Hero>,
     navController: NavHostController
 ) {
+    val result = handlePagingResult(heroes = heroes)
+    if(!result){
+        return
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(2.dp),
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
@@ -67,6 +74,31 @@ fun ListContent(
             }
         }
     }
+}
+
+@Composable
+fun handlePagingResult(
+    heroes: LazyPagingItems<Hero>,
+) : Boolean{
+    heroes.apply {
+        val error = when {
+            loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+            loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+            loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+            else -> null
+        }
+        return when{
+            loadState.refresh is LoadState.Loading -> {
+                ShimmerEffect()
+                false
+            }
+            error != null -> {
+                false
+            }
+            else -> true // Success
+        }
+    }
+
 }
 
 @Composable

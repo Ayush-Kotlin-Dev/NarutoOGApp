@@ -5,6 +5,7 @@ import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -14,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -36,6 +38,7 @@ fun  HomeScreen(
 
 ){
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
+    val backgroundColor = if (isSystemInDarkTheme()) Color.DarkGray else Color.White
 
 
     val animatedLogoPosition = remember { androidx.compose.animation.core.Animatable(logoPosition) }
@@ -54,7 +57,9 @@ fun  HomeScreen(
             ListContent(heroes = allHeroes,
                 navController = navController
             )
-        }
+        },
+        backgroundColor = backgroundColor
+
     )
 
 
