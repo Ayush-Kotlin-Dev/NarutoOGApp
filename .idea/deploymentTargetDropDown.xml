@@ -8,6 +8,9 @@
       <entry key="RatingWidgetPreview">
         <State />
       </entry>
+      <entry key="ShimmerItemPreview">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -21,7 +24,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-07T07:15:48.166890100Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-07T08:21:27.736192300Z" />
         </State>
       </entry>
     </value>
