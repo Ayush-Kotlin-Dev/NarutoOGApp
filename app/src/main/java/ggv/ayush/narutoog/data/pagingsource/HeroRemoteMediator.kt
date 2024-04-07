@@ -10,6 +10,9 @@ import ggv.ayush.narutoog.data.local.BorutoDatabase
 import ggv.ayush.narutoog.data.remote.BorutoApi
 import ggv.ayush.narutoog.domain.model.Hero
 import ggv.ayush.narutoog.domain.model.HeroRemoteKeys
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
@@ -27,6 +30,24 @@ class HeroRemoteMediator @Inject constructor(
                 heroRemoteKeysDao.getRemoteKeys(heroId)
             }
         }
+    }
+
+    override suspend fun initialize(): InitializeAction {
+        val currentTime = System.currentTimeMillis()
+        val lastUpdated = heroRemoteKeysDao.getRemoteKeys(heroId = 1)?.lastUpdated ?: 0
+        val cacheTimeout = 5
+        Log.d("HeroRemoteMediator", "Current time: ${parseMillis(currentTime)}")
+        Log.d("HeroRemoteMediator", "Last updated: ${parseMillis(lastUpdated)}")
+        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
+        return if (diffInMinutes.toInt() > cacheTimeout) {
+            Log.d("HeroRemoteMediator", "Refresh")
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            Log.d("HeroRemoteMediator", "UpToDate")
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+
+
     }
 
     private suspend fun getRemoteKeyForFirstItem(
@@ -82,7 +103,8 @@ class HeroRemoteMediator @Inject constructor(
                         HeroRemoteKeys(
                             id = hero.id,
                             prevPage = prevPage,
-                            nextPage = nextPage
+                            nextPage = nextPage,
+                            lastUpdated = response.lastUpdated
                         )
                     }
                     heroRemoteKeysDao.addAllRemoteKey(heroRemoteKeys = keys)
@@ -100,6 +122,14 @@ class HeroRemoteMediator @Inject constructor(
             return MediatorResult.Error(e)
         }
     }
+
+    //debuging function
+    private fun parseMillis(millis: Long): String {
+        val date = Date(millis)
+        val format = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ROOT)
+        return format.format(date )
+    }
+
 }
 
 
