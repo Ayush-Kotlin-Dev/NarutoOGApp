@@ -17,7 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
+import ggv.ayush.narutoog.presentation.common.ListContent
 import ggv.ayush.narutoog.presentation.components.RatingWidget
 import ggv.ayush.narutoog.ui.theme.LARGE_PADDING
 
@@ -26,7 +28,8 @@ import ggv.ayush.narutoog.ui.theme.LARGE_PADDING
 @Composable
 fun  HomeScreen(
     logoPosition: Float ,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    navController : NavHostController
 
 ){
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
@@ -43,10 +46,13 @@ fun  HomeScreen(
     Scaffold(
         topBar = {
             HomeTopBar(onSearchClicked = {} , logoPosition = animatedLogoPosition.value)
+        },
+        content ={
+            ListContent(heroes = allHeroes,
+                navController = navController
+            )
         }
-    ){
-        RatingWidget(modifier = Modifier.padding(all = LARGE_PADDING), rating = 4.6)
-    }
+    )
 
 
 }

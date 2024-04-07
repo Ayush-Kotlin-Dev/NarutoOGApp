@@ -30,7 +30,7 @@ fun SetupNavGraph(navController: NavHostController) {
             arguments = listOf(navArgument("logoPosition") { type = NavType.FloatType })
         ) { backStackEntry ->
             val logoPosition = backStackEntry.arguments?.getFloat("logoPosition")
-            HomeScreen(logoPosition = logoPosition ?: 0f)
+            HomeScreen(logoPosition = logoPosition ?: 0f , navController = navController)
         }
 
         composable(
