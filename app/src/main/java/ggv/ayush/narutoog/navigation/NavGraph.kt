@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import ggv.ayush.narutoog.presentation.screens.home.HomeScreen
+import ggv.ayush.narutoog.presentation.screens.search.SearchScreen
 import ggv.ayush.narutoog.presentation.screens.splash.SplashScreen
 import ggv.ayush.narutoog.presentation.screens.welcome.WelcomeScreen
 import ggv.ayush.narutoog.util.Constants.DETAILS_ARGUMENT_KEY
@@ -42,7 +43,7 @@ fun SetupNavGraph(navController: NavHostController) {
 
         }
         composable(route = Screen.Search.route) {
-
+            SearchScreen()
         }
     }
 }
