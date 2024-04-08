@@ -33,13 +33,17 @@ import ggv.ayush.narutoog.ui.theme.NETWORK_ERROR_HEIGHT
 
 @Composable
 fun EmptyScreen(
-    error: LoadState.Error
+    error: LoadState.Error?= null
 ) {
-    val errorMessage by remember {
-        mutableStateOf(parseErrorMessage(message = error.toString()))
+    var errorMessage by remember {
+        mutableStateOf("Find Your Favourite Hero")
     }
-    val icon by remember {
-        mutableStateOf(R.drawable.network_error)
+    var icon by remember {
+        mutableStateOf(R.drawable.search_document)
+    }
+    if (error != null) {
+        errorMessage = parseErrorMessage(message = error.toString())
+        icon = R.drawable.network_error
     }
     var startAnimation by remember {
         mutableStateOf(false)

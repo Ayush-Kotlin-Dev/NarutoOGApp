@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
@@ -50,8 +51,9 @@ import ggv.ayush.narutoog.util.Constants.BASE_URL
 
 @Composable
 fun ListContent(
-    heroes : LazyPagingItems<Hero>,
-    navController: NavHostController
+    heroes: LazyPagingItems<Hero>,
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     val result = handlePagingResult(heroes = heroes)
     if(!result){
@@ -60,6 +62,7 @@ fun ListContent(
 
     LazyColumn(
         contentPadding = PaddingValues(2.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
     ) {
         items(
@@ -93,7 +96,12 @@ fun handlePagingResult(
                 false
             }
             error != null -> {
+
                 EmptyScreen(error = error)
+                false
+            }
+            heroes.itemCount < 1 -> {
+                EmptyScreen()
                 false
             }
             else -> true // Success
@@ -128,8 +136,7 @@ fun HeroItem(
     ) {
         Surface(
             shape = RoundedCornerShape(
-                bottomStart = LARGE_PADDING,
-                bottomEnd = LARGE_PADDING
+                size = LARGE_PADDING
             )
         ) {
             Image(

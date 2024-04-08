@@ -34,7 +34,6 @@ class SearchViewModel @Inject constructor(
                 _searchedHeroes.value = it
             }
 
-
         }
     }
 

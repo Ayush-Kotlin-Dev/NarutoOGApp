@@ -15,7 +15,7 @@ class SearchHeroesSource @Inject constructor(
         return try{
             val apiResponse = borutoApi.searchHeroes(name = query)
             val heroes = apiResponse.heroes
-            if(heroes.isEmpty()){
+            if(heroes.isNotEmpty()){
                 return LoadResult.Page(
                     data = heroes,
                     prevKey = apiResponse.prevPage,
