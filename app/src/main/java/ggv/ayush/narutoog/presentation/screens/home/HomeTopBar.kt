@@ -36,11 +36,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.Dp
+import androidx.navigation.NavController
+import ggv.ayush.narutoog.presentation.screens.search.SearchScreen
 
 @Composable
 fun HomeTopBar(
     onSearchClicked : () -> Unit,
-    logoPosition: Float
+    logoPosition: Float,
 ) {
     val topBarContentColor = if(isSystemInDarkTheme()) Color.LightGray else Color.White
     val topBarBackgroundColor = if(isSystemInDarkTheme()) Color.Black else Purple500

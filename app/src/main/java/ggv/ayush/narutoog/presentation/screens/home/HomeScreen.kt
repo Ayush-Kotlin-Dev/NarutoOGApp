@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import ggv.ayush.narutoog.domain.model.Hero
+import ggv.ayush.narutoog.navigation.Screen
 import ggv.ayush.narutoog.presentation.common.HeroItem
 import ggv.ayush.narutoog.presentation.common.ListContent
 import ggv.ayush.narutoog.presentation.components.RatingWidget
@@ -51,7 +52,7 @@ fun  HomeScreen(
 
     Scaffold(
         topBar = {
-            HomeTopBar(onSearchClicked = {} , logoPosition = animatedLogoPosition.value)
+            HomeTopBar(onSearchClicked = { navController.navigate(Screen.Search.route)} , logoPosition = animatedLogoPosition.value)
         },
         content ={
             ListContent(heroes = allHeroes,
