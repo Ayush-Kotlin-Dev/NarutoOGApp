@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -15,6 +16,7 @@ fun SearchScreen(
     searchViewModel: SearchViewModel = hiltViewModel()
 ) {
     val searchQuery by searchViewModel.searchQuery
+    val heroes = searchViewModel.searchedHeroes.collectAsLazyPagingItems()
 
 
     Scaffold(
@@ -27,7 +29,9 @@ fun SearchScreen(
                 onCloseClicked = {
                     navController.popBackStack()
                                  },
-                onSearchClicked = { /*TODO*/ },
+                onSearchClicked = {
+                    searchViewModel.searchHeroes(searchQuery)
+                                  },
             )
         },
         content = {

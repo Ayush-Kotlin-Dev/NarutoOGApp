@@ -4,8 +4,10 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.room.Query
 import ggv.ayush.narutoog.data.local.BorutoDatabase
 import ggv.ayush.narutoog.data.pagingsource.HeroRemoteMediator
+import ggv.ayush.narutoog.data.pagingsource.SearchHeroesSource
 import ggv.ayush.narutoog.data.remote.BorutoApi
 import ggv.ayush.narutoog.domain.model.Hero
 import ggv.ayush.narutoog.domain.repository.RemoteDataSource
@@ -31,7 +33,19 @@ class RemoteDataSourceImpl(
         ).flow
     }
 
-    override  fun searchHeroes(): Flow<PagingData<Hero>> {
-        TODO("Not yet implemented")
+    override  fun searchHeroes( query: String): Flow<PagingData<Hero>> {
+        return Pager(
+            config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+            remoteMediator = HeroRemoteMediator(
+                borutoApi,
+                borutoDatabase
+            ),
+            pagingSourceFactory = {
+                SearchHeroesSource(
+                    borutoApi,
+                    query = query
+                )
+            }
+        ).flow
     }
 }

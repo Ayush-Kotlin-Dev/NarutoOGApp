@@ -14,6 +14,7 @@ import ggv.ayush.narutoog.domain.use_cases.UseCases
 import ggv.ayush.narutoog.domain.use_cases.get_all_heroes.GetAllHeroesUseCase
 import ggv.ayush.narutoog.domain.use_cases.readonboarding.ReadOnBoardingUseCase
 import ggv.ayush.narutoog.domain.use_cases.save_onboarding.SaveOnBoardingCase
+import ggv.ayush.narutoog.domain.use_cases.search_heroes.SearchHeroesUseCase
 
 
 @Module
@@ -34,7 +35,8 @@ object RepositoryModule {
         return UseCases(
             saveOnBoardingCase = SaveOnBoardingCase(repository),
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
-            getAllHeroesUseCase = GetAllHeroesUseCase(repository)
+            getAllHeroesUseCase = GetAllHeroesUseCase(repository),
+            searchHeroesUseCase = SearchHeroesUseCase(repository)
         )
     }
 
