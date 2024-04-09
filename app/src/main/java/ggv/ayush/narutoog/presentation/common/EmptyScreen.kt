@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.Icon
 import androidx.compose.material.MaterialTheme
@@ -28,12 +30,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ggv.ayush.narutoog.R
+import ggv.ayush.narutoog.domain.model.Hero
 import ggv.ayush.narutoog.ui.theme.NETWORK_ERROR_HEIGHT
 
 @Composable
 fun EmptyScreen(
-    error: LoadState.Error?= null
+    error: LoadState.Error?= null,
+    heroes : LazyPagingItems<Hero>?=null
 ) {
     var errorMessage by remember {
         mutableStateOf("Find Your Favourite Hero")
@@ -58,34 +65,66 @@ fun EmptyScreen(
         startAnimation = true
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    EmptyContent(
+        icon = icon,
+        errorMessage = errorMessage,
+        alphaAnim = alphaAnim,
+        heroes = heroes,
+        error = error
+    )
+}
+@Composable
+fun EmptyContent(
+    error: LoadState.Error?= null,
+    icon: Int,
+    errorMessage: String,
+    alphaAnim: Float,
+    heroes: LazyPagingItems<Hero>?=null
+){
+    var isRefreshing by remember {
+        mutableStateOf(false)
+    }
+    SwipeRefresh(
+        swipeEnabled =error!=null,
+        state =  rememberSwipeRefreshState(isRefreshing = isRefreshing ),
+        onRefresh = {
+            isRefreshing = true
+            heroes?.refresh()
+            isRefreshing = false
+
+
+        }
     ) {
-        Icon(
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
 
-            modifier = Modifier
-                .size(NETWORK_ERROR_HEIGHT)
-                .alpha(alphaAnim),
-            painter = painterResource(id = icon),
-            contentDescription = null,
-            tint = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray
-        )
+                modifier = Modifier
+                    .size(NETWORK_ERROR_HEIGHT)
+                    .alpha(alphaAnim),
+                painter = painterResource(id = icon),
+                contentDescription = null,
+                tint = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray
+            )
 
-        Text(
-            modifier = Modifier
-                .padding(top = 16.dp)
-                . alpha(alphaAnim),
-            text = errorMessage,
-            color = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Medium,
-            fontSize = MaterialTheme.typography.subtitle1.fontSize,
-        )
+            Text(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .alpha(alphaAnim),
+                text = errorMessage,
+                color = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                fontSize = MaterialTheme.typography.subtitle1.fontSize,
+            )
+        }
+
     }
 }
-
 fun parseErrorMessage(message: String): String {
     return when {
         message.contains("404") -> "No data found"
