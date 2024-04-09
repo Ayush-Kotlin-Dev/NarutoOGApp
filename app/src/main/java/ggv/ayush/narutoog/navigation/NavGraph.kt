@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import ggv.ayush.narutoog.presentation.details.DetailsScreen
+import ggv.ayush.narutoog.presentation.screens.details.DetailsScreen
 import ggv.ayush.narutoog.presentation.screens.home.HomeScreen
 import ggv.ayush.narutoog.presentation.screens.search.SearchScreen
 import ggv.ayush.narutoog.presentation.screens.splash.SplashScreen
