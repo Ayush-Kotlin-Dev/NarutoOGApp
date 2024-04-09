@@ -38,12 +38,3 @@ fun OrderedList(
         }
     }
 }
-@Composable
-@Preview(showBackground = true)
-fun OrderedListPreview() {
-    OrderedList(
-        title = "Family",
-        items = listOf("Item 1", "Item 2", "Item 3"),
-        textColor = Color.Black
-    )
-}

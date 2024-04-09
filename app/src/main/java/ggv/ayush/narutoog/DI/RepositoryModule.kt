@@ -12,6 +12,7 @@ import dagger.hilt.components.SingletonComponent
 import ggv.ayush.narutoog.data.repository.Repository
 import ggv.ayush.narutoog.domain.use_cases.UseCases
 import ggv.ayush.narutoog.domain.use_cases.get_all_heroes.GetAllHeroesUseCase
+import ggv.ayush.narutoog.domain.use_cases.getselectedhero.GetSelectedHeroUsecase
 import ggv.ayush.narutoog.domain.use_cases.readonboarding.ReadOnBoardingUseCase
 import ggv.ayush.narutoog.domain.use_cases.save_onboarding.SaveOnBoardingCase
 import ggv.ayush.narutoog.domain.use_cases.search_heroes.SearchHeroesUseCase
@@ -36,7 +37,8 @@ object RepositoryModule {
             saveOnBoardingCase = SaveOnBoardingCase(repository),
             readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
             getAllHeroesUseCase = GetAllHeroesUseCase(repository),
-            searchHeroesUseCase = SearchHeroesUseCase(repository)
+            searchHeroesUseCase = SearchHeroesUseCase(repository),
+            getSelectedHeroUsecase = GetSelectedHeroUsecase(repository)
         )
     }
 

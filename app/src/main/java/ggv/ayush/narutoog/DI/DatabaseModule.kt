@@ -8,6 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ggv.ayush.narutoog.data.local.BorutoDatabase
+import ggv.ayush.narutoog.data.repository.LocalDataSourceImpl
+import ggv.ayush.narutoog.domain.repository.LocalDataSource
 import ggv.ayush.narutoog.util.Constants.BORUTU_DATABASE
 import javax.inject.Singleton
 
@@ -19,12 +21,22 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ) : BorutoDatabase {
+    ): BorutoDatabase {
         return Room.databaseBuilder(
             context,
             BorutoDatabase::class.java,
             BORUTU_DATABASE
         ).build()
     }
+
+    //how to provide local dataSource
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(
+        database: BorutoDatabase
+    ): LocalDataSource {
+        return LocalDataSourceImpl(database)
+    }
+
 
 }
