@@ -11,7 +11,7 @@ object Constants {
     const val ON_BOARDING_PAGE_COUNT = 3
     const val LAST_ON_BOARDING_PAGE_INDEX = ON_BOARDING_PAGE_COUNT - 1
 
-    const val BASE_URL = "http://10.0.2.2:8080"
+    const val BASE_URL = "https://animeheroesserver.onrender.com/"
 
     const val ITEMS_PER_PAGE = 3
 
