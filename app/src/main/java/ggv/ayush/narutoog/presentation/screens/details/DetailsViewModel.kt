@@ -11,6 +11,8 @@ import ggv.ayush.narutoog.domain.model.Hero
 import ggv.ayush.narutoog.domain.use_cases.UseCases
 import ggv.ayush.narutoog.util.Constants.DETAILS_ARGUMENT_KEY
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +21,8 @@ class DetailsViewModel @Inject constructor(
     private val useCases: UseCases,
     saveStateHandle : SavedStateHandle
 ):ViewModel() {
-    private val _selectedHero:MutableState<Hero?> = mutableStateOf(null)
-    val selectedHero:MutableState<Hero?> = _selectedHero
+    private val _selectedHero:MutableStateFlow<Hero?> = MutableStateFlow(null)
+    val selectedHero:StateFlow<Hero?> = _selectedHero
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
