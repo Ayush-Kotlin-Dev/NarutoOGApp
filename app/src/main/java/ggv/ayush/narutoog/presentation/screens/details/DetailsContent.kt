@@ -1,7 +1,10 @@
 package ggv.ayush.narutoog.presentation.screens.details
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.IconButton
@@ -21,14 +25,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +55,7 @@ import ggv.ayush.narutoog.ui.theme.INFO_ICON_SIZE
 import ggv.ayush.narutoog.ui.theme.MEDIUM_PADDING
 import ggv.ayush.narutoog.ui.theme.SMALL_PADDING
 import ggv.ayush.narutoog.util.Constants.BASE_URL
+import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
@@ -57,10 +65,24 @@ fun DetailsContent(
     navController: NavController,
     selectedHero: Hero?
 ) {
+    val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Expanded)
     )
+    val currentSheetFraction = scaffoldState.currentSheetFraction
+    Log.d("Fraction New", currentSheetFraction.toString())
     BottomSheetScaffold(
+        modifier = Modifier.pointerInput(Unit) {
+            detectTapGestures(onTap = {
+                scope.launch {
+                    if (scaffoldState.bottomSheetState.isCollapsed) {
+                        scaffoldState.bottomSheetState.expand()
+                    } else {
+                        scaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            })
+        },
         scaffoldState = scaffoldState,
         sheetPeekHeight = MIN_SHEET_HEIGHT,
         sheetContent = {
@@ -72,11 +94,10 @@ fun DetailsContent(
             selectedHero?.let {
                 BackgroundContent(
                     heroImage = it.image,
+                    imageFraction = currentSheetFraction,
                     onCloseClicked = { navController.popBackStack() }
                 )
             }
-
-
         }
     )
 }
@@ -195,6 +216,7 @@ fun BottomSheetContent(
         }
     }
 }
+@SuppressLint("Range")
 @Composable
 fun BackgroundContent(
     heroImage: String,
@@ -214,7 +236,7 @@ fun BackgroundContent(
             contentDescription = "Hero image",
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(imageFraction)
+                .fillMaxHeight(imageFraction + 0.4f)
                 .align(Alignment.TopStart),
             contentScale = ContentScale.Crop
         )
@@ -238,6 +260,21 @@ fun BackgroundContent(
         }
     }
 }
+@OptIn(ExperimentalMaterialApi::class)
+val BottomSheetScaffoldState.currentSheetFraction: Float
+    get() {
+        val fraction = bottomSheetState.progress
+        val targetValue = bottomSheetState.targetValue
+        val currentValue = bottomSheetState.currentValue
+
+        return when {
+            currentValue == BottomSheetValue.Collapsed  && targetValue ==  BottomSheetValue.Collapsed-> 1f
+            currentValue == BottomSheetValue.Expanded && targetValue ==  BottomSheetValue.Expanded -> 0f
+            currentValue == BottomSheetValue.Collapsed  &&  targetValue ==  BottomSheetValue.Expanded -> 1f - fraction
+            currentValue == BottomSheetValue.Expanded && targetValue ==  BottomSheetValue.Collapsed -> 0f + fraction
+            else -> fraction
+        }
+    }
 
 @Composable
 @Preview
