@@ -2,6 +2,8 @@ package ggv.ayush.narutoog.presentation.screens.details
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.BottomSheetScaffold
@@ -29,6 +32,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +55,8 @@ import ggv.ayush.narutoog.ui.theme.titleColor
 import ggv.ayush.narutoog.R
 import ggv.ayush.narutoog.presentation.components.InfoBox
 import ggv.ayush.narutoog.presentation.components.OrderedList
+import ggv.ayush.narutoog.ui.theme.EXPANDED_RADIUS_LEVEL
+import ggv.ayush.narutoog.ui.theme.EXTRA_LARGE_PADDING
 import ggv.ayush.narutoog.ui.theme.INFO_ICON_SIZE
 import ggv.ayush.narutoog.ui.theme.MEDIUM_PADDING
 import ggv.ayush.narutoog.ui.theme.SMALL_PADDING
@@ -71,6 +77,13 @@ fun DetailsContent(
     )
     val currentSheetFraction = scaffoldState.currentSheetFraction
     Log.d("Fraction New", currentSheetFraction.toString())
+
+    val radiusAnim by animateDpAsState(
+        targetValue = if(currentSheetFraction == 1f) EXTRA_LARGE_PADDING else EXPANDED_RADIUS_LEVEL
+    )
+
+
+
     BottomSheetScaffold(
         modifier = Modifier.pointerInput(Unit) {
             detectTapGestures(onTap = {
@@ -83,6 +96,8 @@ fun DetailsContent(
                 }
             })
         },
+
+        sheetShape = RoundedCornerShape(topStart = radiusAnim, topEnd = radiusAnim),
         scaffoldState = scaffoldState,
         sheetPeekHeight = MIN_SHEET_HEIGHT,
         sheetContent = {
@@ -237,7 +252,9 @@ fun BackgroundContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(imageFraction + 0.4f)
-                .align(Alignment.TopStart),
+                .align(Alignment.TopStart)
+                .animateContentSize()
+            , // Add this line
             contentScale = ContentScale.Crop
         )
         Row(
