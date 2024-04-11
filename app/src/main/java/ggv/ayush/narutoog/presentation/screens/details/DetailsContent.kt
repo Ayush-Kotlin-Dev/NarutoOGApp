@@ -1,9 +1,12 @@
 package ggv.ayush.narutoog.presentation.screens.details
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,7 +16,10 @@ import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,11 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import ggv.ayush.narutoog.domain.model.Hero
 import ggv.ayush.narutoog.ui.theme.LARGE_PADDING
 import ggv.ayush.narutoog.ui.theme.MIN_SHEET_HEIGHT
@@ -37,6 +46,8 @@ import ggv.ayush.narutoog.presentation.components.InfoBox
 import ggv.ayush.narutoog.presentation.components.OrderedList
 import ggv.ayush.narutoog.ui.theme.INFO_ICON_SIZE
 import ggv.ayush.narutoog.ui.theme.MEDIUM_PADDING
+import ggv.ayush.narutoog.ui.theme.SMALL_PADDING
+import ggv.ayush.narutoog.util.Constants.BASE_URL
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
@@ -58,6 +69,13 @@ fun DetailsContent(
             }
         },
         content = {
+            selectedHero?.let {
+                BackgroundContent(
+                    heroImage = it.image,
+                    onCloseClicked = { navController.popBackStack() }
+                )
+            }
+
 
         }
     )
@@ -82,7 +100,7 @@ fun BottomSheetContent(
             modifier = Modifier
                 .fillMaxWidth()
 
-                .padding(top = 10.dp , bottom = LARGE_PADDING),
+                .padding(top = 10.dp, bottom = LARGE_PADDING),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -174,6 +192,49 @@ fun BottomSheetContent(
                 items = selectedHero.natureTypes,
                 textColor = contentColor
             )
+        }
+    }
+}
+@Composable
+fun BackgroundContent(
+    heroImage: String,
+    imageFraction: Float = 1f,
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    onCloseClicked: () -> Unit
+) {
+    val imageUrl = "${BASE_URL}$heroImage"
+    val painter = rememberAsyncImagePainter(imageUrl)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(backgroundColor)
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = "Hero image",
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(imageFraction)
+                .align(Alignment.TopStart),
+            contentScale = ContentScale.Crop
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+           IconButton(
+                modifier = Modifier
+                     .padding(all = SMALL_PADDING),
+               onClick = {  onCloseClicked() }
+           ) {
+                Icon(
+                    modifier = Modifier.size(INFO_ICON_SIZE),
+                    imageVector = Icons.Default.Close,
+                   contentDescription = "Close",
+                   tint = Color.White
+               )
+           }
         }
     }
 }
