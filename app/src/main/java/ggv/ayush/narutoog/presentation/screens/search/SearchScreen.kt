@@ -3,6 +3,7 @@ package ggv.ayush.narutoog.presentation.screens.search
 import SearchTopBar
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,15 +11,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ggv.ayush.narutoog.presentation.common.ListContent
 import ggv.ayush.narutoog.ui.theme.HERO_ITEM_HEIGHT
 import ggv.ayush.narutoog.ui.theme.MEDIUM_PADDING
+import ggv.ayush.narutoog.ui.theme.Purple700
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -28,6 +32,11 @@ fun SearchScreen(
 ) {
     val searchQuery by searchViewModel.searchQuery
     val heroes = searchViewModel.searchedHeroes.collectAsLazyPagingItems()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(
+        color = if(isSystemInDarkTheme()) Color.Black else Purple700
+    )
+
 
     Scaffold(
         topBar = {

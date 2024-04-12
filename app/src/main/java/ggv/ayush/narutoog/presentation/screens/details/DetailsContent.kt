@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ggv.ayush.narutoog.domain.model.Hero
 import ggv.ayush.narutoog.ui.theme.LARGE_PADDING
 import ggv.ayush.narutoog.ui.theme.MIN_SHEET_HEIGHT
@@ -101,6 +102,9 @@ fun DetailsContent(
         darkVibrant = colors["darkVibrant"]!!
         onDarkVibrant = colors["onDarkVibrant"] !!
     }
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(Color(parseColor(darkVibrant)))
 
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(

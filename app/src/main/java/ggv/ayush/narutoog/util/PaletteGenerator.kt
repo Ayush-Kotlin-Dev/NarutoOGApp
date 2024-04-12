@@ -36,7 +36,7 @@ object PaletteGenerator {
                 color = Palette.from(bitmap).generate().darkVibrantSwatch
             ),
             "onDarkVibrant" to parseBodyColor(
-                color = Palette.from(bitmap).generate().darkVibrantSwatch?.bodyTextColor ?: 0
+                color = Palette.from(bitmap).generate().darkVibrantSwatch?.bodyTextColor
             ),
         )
     }
