@@ -83,7 +83,6 @@ fun HomeTopBar(
                         .padding(2.dp)
                         .rotate(angle)
                         .offset(y = Dp(logoPosition)),
-                    //logo should be comverted to another logo after clicking on it, to R.drawable.img
 
                     tint = if(isSystemInDarkTheme()) Color.White else Color.White
                 )
