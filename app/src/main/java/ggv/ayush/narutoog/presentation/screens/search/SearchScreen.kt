@@ -7,6 +7,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +36,9 @@ fun SearchScreen(
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(
         color = if(isSystemInDarkTheme()) Color.Black else Purple700
+    )
+    systemUiController.setNavigationBarColor(
+        color = if(isSystemInDarkTheme()) Color.Black else MaterialTheme.colors.surface.copy(alpha = 0.95f)
     )
 
 

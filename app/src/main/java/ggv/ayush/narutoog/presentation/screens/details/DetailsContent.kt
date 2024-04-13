@@ -105,6 +105,7 @@ fun DetailsContent(
 
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color(parseColor(darkVibrant)))
+    systemUiController.setNavigationBarColor(Color(parseColor(darkVibrant)))
 
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(
@@ -186,7 +187,7 @@ fun BottomSheetContent(
         .padding(
                 start = LARGE_PADDING,
                 end = LARGE_PADDING,
-                top = LARGE_PADDING
+                top = LARGE_PADDING,
             )
     ) {
         Row(

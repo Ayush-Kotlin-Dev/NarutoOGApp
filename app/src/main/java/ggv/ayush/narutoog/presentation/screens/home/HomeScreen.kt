@@ -35,6 +35,9 @@ fun  HomeScreen(
     systemUiController.setStatusBarColor(
         color = if(isSystemInDarkTheme()) Color.Black else Purple700
     )
+    systemUiController.setNavigationBarColor(
+        color = if(isSystemInDarkTheme()) Color.Black else MaterialTheme.colors.surface.copy(alpha = 0.95f)
+    )
     val backgroundColor = if (isSystemInDarkTheme()) Color.DarkGray else Color.White
 
 
